@@ -3,9 +3,13 @@ machine:
     version: '3.5.2'
 
 dependencies:
-  post:
-    - pip install -r test-requirements.txt -r fast-requirements.txt
+  override:
+    - pip install -e .[fast]
+    - pip install -r test-requirements.txt
 
 test:
   override:
-    - pytest test
+    - pytest --cov
+  post:
+    - bash <(curl -s https://codecov.io/bash)
+
