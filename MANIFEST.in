@@ -1,0 +1,3 @@
+include requirements.txt
+include fast-requirements.txt
+include test-requirements.txt

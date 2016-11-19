@@ -1,4 +1,14 @@
+import io
 from setuptools import setup
+
+with io.open('requirements.txt') as f:
+    install_requires = f.read().splitlines()
+
+with io.open('test-requirements.txt') as f:
+    tests_require = f.read().splitlines()
+
+with io.open('fast-requirements.txt') as f:
+    fast_extra_requires = f.read().splitlines()
 
 setup(
     name='structlog-pretty',
@@ -11,15 +21,9 @@ setup(
     download_url='https://github.com/underyx/structlog-pretty/releases',
     long_description='A collection of structlog processors for prettier output.',
     packages=['structlog_pretty'],
-    install_requires=[
-        'pygments>=2,<3',
-    ],
-    extras_require={
-        'fast': ['lxml', 'rapidjson'],
-    },
-    tests_require=[
-        'pytest==3.*',
-    ],
+    install_requires=install_requires,
+    tests_require=tests_require,
+    extras_require={'fast': fast_extra_requires},
     classifiers=[
         'Development Status :: 3 - Alpha',
         'License :: OSI Approved :: MIT License',
