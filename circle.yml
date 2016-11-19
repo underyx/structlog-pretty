@@ -1,0 +1,7 @@
+dependencies:
+  post:
+    - pip install -r test-requirements.txt -r fast-requirements.txt
+
+test:
+  override:
+    - pytest test
