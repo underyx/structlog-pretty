@@ -1,3 +1,4 @@
+include README.rst
 include requirements.txt
 include fast-requirements.txt
 include test-requirements.txt

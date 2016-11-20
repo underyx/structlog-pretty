@@ -10,6 +10,9 @@ with io.open('test-requirements.txt') as f:
 with io.open('fast-requirements.txt') as f:
     fast_extra_requires = f.read().splitlines()
 
+with io.open('README.rst') as f:
+    long_description = f.read().splitlines()
+
 setup(
     name='structlog-pretty',
     version='0.1.0',
@@ -19,7 +22,8 @@ setup(
     maintainer='Bence Nagy',
     maintainer_email='bence@underyx.me',
     download_url='https://github.com/underyx/structlog-pretty/releases',
-    long_description='A collection of structlog processors for prettier output.',
+    description='A collection of structlog processors for prettier output',
+    long_description=long_description,
     packages=['structlog_pretty'],
     install_requires=install_requires,
     tests_require=tests_require,
