@@ -195,7 +195,7 @@ class MultilinePrinter(object):
     def __call__(self, _, __, event_dict):
         for field in self.fields:
             try:
-                print(event_dict.pop(field), file=self.target)
+                print(event_dict.pop(field), file=self.target, end='')
             except KeyError:
                 continue
 

@@ -11,7 +11,7 @@ def test_run(param):
     buffer = io.StringIO()
     processor = uut(fields=['param'], target=buffer)
     event_dict = processor(None, None, {'param': param})
-    assert buffer.getvalue() == param + '\n'
+    assert buffer.getvalue() == param
     assert event_dict == {}
 
 
