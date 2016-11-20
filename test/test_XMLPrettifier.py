@@ -17,6 +17,20 @@ cases = [
           <elem/>
         </wrapper>
     ''').strip()),
+    (
+        dedent('''
+            <wrapper>
+               <elem/>
+                <elem/>
+             </wrapper>
+        ''').strip(),
+        dedent('''
+            <wrapper>
+              <elem/>
+              <elem/>
+            </wrapper>
+        ''').strip(),
+    ),
 ]
 modes = ('slow', 'fast')
 

@@ -1,7 +1,6 @@
 from __future__ import absolute_import, print_function
 
 import sys
-
 import json
 try:
     import rapidjson
@@ -19,6 +18,8 @@ except ImportError:
 from pygments import highlight
 from pygments.lexers import get_lexer_by_name
 from pygments.formatters import TerminalFormatter
+
+from . import utils
 
 
 class NumericRounder(object):
@@ -107,17 +108,33 @@ class XMLPrettifier(object):
         :param xml_fields: An iterable specifying the fields to prettify
         """
         self.fields = xml_fields
-        self.prettify = self.fast_prettify if fast_xml_available else self.slow_prettify
+        if fast_xml_available:
+            self.prettify = self.fast_prettify
+            self.lxml_parser = etree.XMLParser(remove_blank_text=True)
+        else:
+            self.prettify = self.slow_prettify
+            self.lxml_parser = None
+
+    def remove_blanks(self, node):
+        from xml.dom.minidom import Node
+        for x in node.childNodes:
+            if x.nodeType == Node.TEXT_NODE:
+                if x.nodeValue:
+                    x.nodeValue = x.nodeValue.strip()
+            elif x.nodeType == Node.ELEMENT_NODE:
+                self.remove_blanks(x)
 
     @staticmethod
     def slow_prettify(code):
-        result = parse_xml_string(code).toprettyxml(indent='  ')
+        xml = parse_xml_string(code)
+        utils.strip_minidom_whitespace(xml)
+        xml.normalize()
+        result = xml.toprettyxml(indent='  ')
         result = result.replace('<?xml version="1.0" ?>\n', '')
         return result.strip()
 
-    @staticmethod
-    def fast_prettify(code):
-        result = etree.tostring(etree.fromstring(code), pretty_print=True)
+    def fast_prettify(self, code):
+        result = etree.tostring(etree.fromstring(code.encode(), parser=self.lxml_parser), pretty_print=True)
         return result.strip().decode()
 
     def __call__(self, _, __, event_dict):
