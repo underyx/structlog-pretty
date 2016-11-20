@@ -36,7 +36,7 @@ modes = ('slow', 'fast')
 
 
 @pytest.mark.parametrize(['mode', 'param', 'expected'], [
-    (mode, *case) for mode in modes for case in cases
+    [mode] + list(case) for mode in modes for case in cases
 ])
 def test_run(mode, param, expected, monkeypatch):
     monkeypatch.setattr('structlog_pretty.processors.fast_xml_available', mode == 'fast')
