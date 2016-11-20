@@ -1,0 +1,47 @@
+[Default]
+files = **.(py|md|rst|yml), tox.ini, .coafile
+ignore = (.tox|env|.env|venv)/**
+
+indent_size = 4
+use_spaces = True
+max_line_length = 120
+max_lines_per_file = 1000
+file_naming_convention = snake
+
+[filenames]
+bears = FilenameBear
+files = structlog_pretty/**.py
+
+[lengths]
+bears = LineCountBear, LineLengthBear
+
+[spacing]
+ignore = (.tox|env|.env|venv)/**, **.yml, tox.ini, .coafile
+bears = SpaceConsistencyBear
+
+[config-spacing]
+files = **.yml, tox.ini, .coafile
+bears = SpaceConsistencyBear
+indent_size = 2
+
+[python-semantic]
+files = **.py
+bears = RadonBear, PyUnusedCodeBear
+language = python
+
+[yaml]
+files = **.(yml|yaml)
+bears = YAMLLintBear
+
+[restructuredtext]
+files = **.rst
+bears = reSTLintBear
+
+[commit]
+bears = GitCommitBear
+shortlog_length = 72
+
+[keywords]
+bears = KeywordBear
+keywords, ci_keywords = TODO, FIXME, pdb.set_trace()  # Ignore KeywordBear
+cs_keywords =

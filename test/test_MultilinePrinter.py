@@ -1,6 +1,4 @@
-import itertools
 import io
-from textwrap import dedent
 
 import pytest
 from structlog_pretty.processors import MultilinePrinter as uut

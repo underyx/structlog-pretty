@@ -1,15 +1,12 @@
+---
 machine:
   python:
     version: '3.5.2'
-
 dependencies:
   override:
-    - pip install -e .[fast]
-    - pip install -r test-requirements.txt
-
+    - pip install tox==2.4.*
 test:
   override:
-    - pytest --cov
+    - tox
   post:
     - bash <(curl -s https://codecov.io/bash)
-

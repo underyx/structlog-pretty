@@ -11,7 +11,7 @@ with io.open('fast-requirements.txt') as f:
     fast_extra_requires = f.read().splitlines()
 
 with io.open('README.rst') as f:
-    long_description = f.read().splitlines()
+    long_description = f.read()
 
 setup(
     name='structlog-pretty',

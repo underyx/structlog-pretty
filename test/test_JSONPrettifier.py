@@ -1,4 +1,3 @@
-import itertools
 from textwrap import dedent
 
 import pytest

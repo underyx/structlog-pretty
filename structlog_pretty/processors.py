@@ -155,7 +155,6 @@ class SyntaxHighlighter(object):
                 continue
             event_dict[field] = highlight(code, lexer, TerminalFormatter())
 
-
         return event_dict
 
 

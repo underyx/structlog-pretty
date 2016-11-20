@@ -1,9 +1,7 @@
-import itertools
 from textwrap import dedent
 
 import pytest
 from structlog_pretty.processors import XMLPrettifier as uut
-
 
 cases = [
     ('<elem/>', '<elem/>'),
