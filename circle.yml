@@ -1,10 +1,8 @@
 ---
-machine:
-  python:
-    version: '3.5.2'
 dependencies:
   override:
-    - pip install tox==2.4.*
+    - pip3.5 install tox==2.4.* tox-pyenv==1.*
+    - pyenv local 2.7.12 3.4.4 3.5.2
 test:
   override:
     - tox
