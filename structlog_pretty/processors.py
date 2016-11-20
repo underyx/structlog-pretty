@@ -22,8 +22,17 @@ from pygments.formatters import TerminalFormatter
 
 
 class NumericRounder(object):
+    """A processor for rounding numbers in the event values
+
+    For instance, ``1.162537216`` will be changed to ``1.163``.
+    """
 
     def __init__(self, digits=3, only_fields=None):
+        """Create a processor that rounds numbers in the event values
+
+        :param digits: The number of digits to round to
+        :param only_fields: An iterable specifying the fields to round
+        """
         self.digits = digits
         try:
             self.only_fields = set(only_fields)
@@ -42,8 +51,23 @@ class NumericRounder(object):
 
 
 class JSONPrettifier(object):
+    """A processor for prettifying JSON strings
+
+    For instance, ``{"numbers":[1,2]}`` will be changed to this::
+
+        {
+          "numbers": [
+            1,
+            2
+          ]
+        }
+    """
 
     def __init__(self, json_fields):
+        """Create a processor that prettifies JSON strings in the event values
+
+        :param json_fields: An iterable specifying the fields to prettify
+        """
         self.fields = json_fields
         self.prettify = self.fast_prettify if fast_json_available else self.slow_prettify
 
@@ -67,8 +91,21 @@ class JSONPrettifier(object):
 
 
 class XMLPrettifier(object):
+    """A processor for prettifying XML strings
+
+    For instance, ``<body><elem/><elem /></body>`` will be changed to this::
+
+        <body>
+          <elem/>
+          <elem/>
+        </body>
+    """
 
     def __init__(self, xml_fields):
+        """Create a processor that prettifies XML strings in the event values
+
+        :param xml_fields: An iterable specifying the fields to prettify
+        """
         self.fields = xml_fields
         self.prettify = self.fast_prettify if fast_xml_available else self.slow_prettify
 
@@ -95,8 +132,16 @@ class XMLPrettifier(object):
 
 
 class SyntaxHighlighter(object):
+    """A processor for syntax highlighting code"""
 
     def __init__(self, field_map):
+        """Create a processor that syntax highlights code in the event values
+
+        The syntax highlighting will use with ANSI terminal color codes.
+
+        :param field_map: A mapping with field names mapped to languages, e.g.
+                          ``{'body': 'json': 'soap_response': 'xml'}``
+        """
         self.lexers = {
             field: get_lexer_by_name(language)
             for field, language in field_map.items()
@@ -115,8 +160,19 @@ class SyntaxHighlighter(object):
 
 
 class MultilinePrinter(object):
+    """A processor for printing multiline strings"""
 
     def __init__(self, fields, target=sys.stdout):
+        """Create a processor that prints the requested fields' values
+
+        This is useful for strings with newlines in them. Keep in mind that the
+        fields will be popped from the event dictionary, so they will not be
+        visible to anything (other processors and the logger itself) after this
+        processor has printed them.
+
+        :param fields: An iterable specifying the fields to print
+        :param target: A file-like object to print to
+        """
         self.fields = fields
         self.target = target
 
