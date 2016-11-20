@@ -16,6 +16,8 @@ a numeric value rounder.
 Installation
 ------------
 
+First of all, sorry, grandma, but ``structlog-pretty`` requires Python 3.
+
 You can just install the library with pip::
 
     pip install structlog-pretty
