@@ -16,10 +16,13 @@ from structlog_pretty.processors import NumericRounder as uut
     (Decimal('-1.12345'), Decimal('-1.123')),
     (None, None),
     ('str', 'str'),
+    (True, True),
+    (False, False),
 ])
 def test_run(param, expected):
     processor = uut()
     event_dict = processor(None, None, {'param': param})
+    assert type(event_dict['param']) == type(expected)  # pylint: disable=unidiomatic-typecheck
     assert event_dict == {'param': expected}
 
 

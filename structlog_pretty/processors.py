@@ -42,11 +42,15 @@ class NumericRounder(object):
 
     def __call__(self, _, __, event_dict):
         for key, value in event_dict.items():
-            if self.only_fields is None or key in self.only_fields:
-                try:
-                    event_dict[key] = round(value, self.digits)
-                except TypeError:
-                    continue
+            if self.only_fields is not None and key not in self.only_fields:
+                continue
+            if isinstance(value, bool):
+                continue  # don't convert True to 1.0
+
+            try:
+                event_dict[key] = round(value, self.digits)
+            except TypeError:
+                continue
 
         return event_dict
 
