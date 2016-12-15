@@ -119,15 +119,6 @@ class XMLPrettifier(object):
             self.prettify = self.slow_prettify
             self.lxml_parser = None
 
-    def remove_blanks(self, node):
-        from xml.dom.minidom import Node
-        for x in node.childNodes:
-            if x.nodeType == Node.TEXT_NODE:
-                if x.nodeValue:
-                    x.nodeValue = x.nodeValue.strip()
-            elif x.nodeType == Node.ELEMENT_NODE:
-                self.remove_blanks(x)
-
     @staticmethod
     def slow_prettify(code):
         xml = parse_xml_string(code)
