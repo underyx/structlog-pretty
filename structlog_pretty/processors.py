@@ -169,6 +169,8 @@ class SyntaxHighlighter(object):
                 code = event_dict[field]
             except KeyError:
                 continue
+            if not code:
+                continue
             event_dict[field] = highlight(code, lexer, TerminalFormatter())
 
         return event_dict
