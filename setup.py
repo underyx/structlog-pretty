@@ -15,7 +15,7 @@ with io.open('README.rst') as f:
 
 setup(
     name='structlog-pretty',
-    version='0.1.1',
+    version='0.2.0',
     url='https://github.com/underyx/structlog-pretty',
     author='Bence Nagy',
     author_email='bence@underyx.me',
