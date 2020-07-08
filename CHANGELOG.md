@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## 0.3.0 (2020-07-08)
+
+ - Fix SyntaxHighlighter - skip code highlighting when there is no code to highlight.
+
+
 ## 0.2.0 (2020-07-08)
 
  - Fix JSONPrettifier, XMLPrettifier - skip code coloring when there is no code to color.
