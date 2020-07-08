@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 0.2.0 (2020-07-08)
+
+ - Fix JSONPrettifier, XMLPrettifier - skip code coloring when there is no code to color.
+
 ## 0.1.1 (2016-12-15)
 
  - Fix NumericRounder converting booleans into floats

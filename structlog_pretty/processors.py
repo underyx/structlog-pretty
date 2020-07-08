@@ -90,6 +90,8 @@ class JSONPrettifier(object):
                 code = event_dict[field]
             except KeyError:
                 continue
+            if not code:
+                continue
             event_dict[field] = self.prettify(code)
 
         return event_dict
@@ -137,6 +139,8 @@ class XMLPrettifier(object):
             try:
                 code = event_dict[field]
             except KeyError:
+                continue
+            if not code:
                 continue
             event_dict[field] = self.prettify(code)
 
