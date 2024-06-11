@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 0.4.1 (2024-06-11)
+
+- Export PathPrettifier via top-level package
+
 ## 0.4.0 (2024-06-11)
 
 - Use orjson for fast JSON prettifying instead of rapidjsonX

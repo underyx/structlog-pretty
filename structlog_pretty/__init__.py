@@ -4,4 +4,5 @@ from .processors import (
     XMLPrettifier,
     SyntaxHighlighter,
     MultilinePrinter,
+    PathPrettifier,
 )
