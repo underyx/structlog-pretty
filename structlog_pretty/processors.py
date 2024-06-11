@@ -1,16 +1,21 @@
 from __future__ import absolute_import, print_function
 
+from pathlib import Path
 import sys
 import json
+
 try:
-    import rapidjson
+    import orjson
+
     fast_json_available = True
 except ImportError:
     fast_json_available = False
 
 from xml.dom.minidom import parseString as parse_xml_string
+
 try:
     from lxml import etree
+
     fast_xml_available = True
 except ImportError:
     fast_xml_available = False
@@ -74,7 +79,9 @@ class JSONPrettifier(object):
         :param json_fields: An iterable specifying the fields to prettify
         """
         self.fields = json_fields
-        self.prettify = self.fast_prettify if fast_json_available else self.slow_prettify
+        self.prettify = (
+            self.fast_prettify if fast_json_available else self.slow_prettify
+        )
 
     @staticmethod
     def slow_prettify(code):
@@ -82,7 +89,7 @@ class JSONPrettifier(object):
 
     @staticmethod
     def fast_prettify(code):
-        return rapidjson.dumps(rapidjson.loads(code), indent=2)
+        return orjson.dumps(orjson.loads(code), option=orjson.OPT_INDENT_2).decode()
 
     def __call__(self, _, __, event_dict):
         for field in self.fields:
@@ -126,12 +133,14 @@ class XMLPrettifier(object):
         xml = parse_xml_string(code)
         utils.strip_minidom_whitespace(xml)
         xml.normalize()
-        result = xml.toprettyxml(indent='  ')
-        result = result.replace('<?xml version="1.0" ?>\n', '')
+        result = xml.toprettyxml(indent="  ")
+        result = result.replace('<?xml version="1.0" ?>\n', "")
         return result.strip()
 
     def fast_prettify(self, code):
-        result = etree.tostring(etree.fromstring(code.encode(), parser=self.lxml_parser), pretty_print=True)
+        result = etree.tostring(
+            etree.fromstring(code.encode(), parser=self.lxml_parser), pretty_print=True
+        )
         return result.strip().decode()
 
     def __call__(self, _, __, event_dict):
@@ -159,8 +168,7 @@ class SyntaxHighlighter(object):
                           ``{'body': 'json': 'soap_response': 'xml'}``
         """
         self.lexers = {
-            field: get_lexer_by_name(language)
-            for field, language in field_map.items()
+            field: get_lexer_by_name(language) for field, language in field_map.items()
         }
 
     def __call__(self, _, __, event_dict):
@@ -196,8 +204,37 @@ class MultilinePrinter(object):
     def __call__(self, _, __, event_dict):
         for field in self.fields:
             try:
-                print(event_dict.pop(field), file=self.target, end='')
+                print(event_dict.pop(field), file=self.target, end="")
             except KeyError:
                 continue
+
+        return event_dict
+
+
+class PathPrettifier:
+    """A processor for printing paths.
+
+    Changes all pathlib.Path objects.
+
+    1. Remove PosixPath(...) wrapper by calling str() on the path.
+    2. If path is relative to current working directory,
+       print it relative to working directory.
+
+    Note that working directory is determined when configuring structlog.
+    """
+
+    def __init__(self, base_dir: Path | None = None):
+        self.base_dir = base_dir or Path.cwd()
+
+    def __call__(self, _, __, event_dict):
+        for key, path in event_dict.items():
+            if not isinstance(path, Path):
+                continue
+            path = event_dict[key]
+            try:
+                path = path.relative_to(self.base_dir)
+            except ValueError:
+                pass  # path is not relative to cwd
+            event_dict[key] = str(path)
 
         return event_dict

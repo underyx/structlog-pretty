@@ -1,8 +1,8 @@
 ---
 dependencies:
   override:
-    - pip install coverage==4.* tox==2.4.* tox-pyenv==1.* tox-battery==0.2.*
-    - pyenv local 3.4.4 3.5.2
+    - pip install coverage==7.* tox==4* tox-pyenv==1.* tox-battery==0.6.*
+    - pyenv local 3.12.4 3.8.19
     - tox --notest
   cache_directories:
     - .tox

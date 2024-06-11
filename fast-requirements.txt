@@ -1,2 +1,2 @@
-lxml==3.*
-python-rapidjson==0.0.*
+lxml==5.*
+orjson==3.*

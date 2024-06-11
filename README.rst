@@ -56,6 +56,7 @@ A nice example of a processor pipeline for the *prettiest* logs could be
         # ...
         structlog_pretty.JSONPrettifier(['request', 'response']),
         structlog_pretty.XMLPrettifier(['soap_response']),
+        structlog_pretty.PathPrettifier(),
         structlog_pretty.SyntaxHighlighter({'request': 'json', 'response': 'json', 'soap_response': 'xml'}),
         structlog_pretty.MultilinePrinter(['request', 'response', 'soap_response']),
         # ...
