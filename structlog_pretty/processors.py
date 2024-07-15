@@ -11,6 +11,7 @@ try:
 except ImportError:
     fast_json_available = False
 
+from typing import Optional
 from xml.dom.minidom import parseString as parse_xml_string
 
 try:
@@ -179,7 +180,7 @@ class SyntaxHighlighter(object):
                 continue
             if not code:
                 continue
-            event_dict[field] = highlight(code, lexer, TerminalFormatter())
+            event_dict[field] = highlight(code, lexer, TerminalFormatter()).rstrip()
 
         return event_dict
 
@@ -223,7 +224,7 @@ class PathPrettifier:
     Note that working directory is determined when configuring structlog.
     """
 
-    def __init__(self, base_dir: Path | None = None):
+    def __init__(self, base_dir: Optional[Path] = None):
         self.base_dir = base_dir or Path.cwd()
 
     def __call__(self, _, __, event_dict):

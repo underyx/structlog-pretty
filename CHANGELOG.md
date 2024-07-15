@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## 0.4.2 (2024-07-15)
+
+- Fix typing import unavailable on 3.8
+- Remove trailing newline added by SyntaxHighlighter
+
 ## 0.4.1 (2024-06-11)
 
 - Export PathPrettifier via top-level package
