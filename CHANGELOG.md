@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 0.4.3 (2024-07-15)
+
+- Keep any trailing whitespace passed into SyntaxHighlighter
+
 ## 0.4.2 (2024-07-15)
 
 - Fix typing import unavailable on 3.8

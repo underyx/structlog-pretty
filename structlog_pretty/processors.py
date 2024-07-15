@@ -1,6 +1,7 @@
 from __future__ import absolute_import, print_function
 
 from pathlib import Path
+import re
 import sys
 import json
 
@@ -178,9 +179,19 @@ class SyntaxHighlighter(object):
                 code = event_dict[field]
             except KeyError:
                 continue
+
             if not code:
                 continue
-            event_dict[field] = highlight(code, lexer, TerminalFormatter()).rstrip()
+
+            trailing_whitespace_match = re.search(r"\s*$", code)
+            trailing_whitespace = (
+                trailing_whitespace_match.group(0) if trailing_whitespace_match else ""
+            )
+
+            event_dict[field] = (
+                highlight(code, lexer, TerminalFormatter()).rstrip()
+                + trailing_whitespace
+            )
 
         return event_dict
 
